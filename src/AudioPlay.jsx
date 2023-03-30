@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import buttonStyling from "./style-btn.scss";
 import { secondsToMinutes } from "./utilities.js";
+import "./styles.css";
 
 var a;
 const AudioPlay = () => {
@@ -7,6 +9,7 @@ const AudioPlay = () => {
   const [audio, setAudio] = useState();
   const [durationTime, setDurationTime] = useState("");
   const [songTime, setSongTime] = useState("0:00");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (a) {
@@ -23,14 +26,19 @@ const AudioPlay = () => {
   }, [audio]);
 
   const handleClick = () => {
-    setDurationTime(secondsToMinutes(a.duration));
-    setInterval(() => setSongTime(secondsToMinutes(a.currentTime)), 1000);
-    if (buttonName === "Play") {
-      a.play();
-      setButtonName("Pause");
+    if (a !== undefined) {
+      setDurationTime(secondsToMinutes(a.duration));
+      setInterval(() => setSongTime(secondsToMinutes(a.currentTime)), 1000);
+      if (buttonName === "Play") {
+        a.play();
+        setButtonName("Pause");
+      } else {
+        a.pause();
+        setButtonName("Play");
+      }
+      setError("");
     } else {
-      a.pause();
-      setButtonName("Play");
+      setError("File not found!");
     }
   };
 
@@ -47,6 +55,7 @@ const AudioPlay = () => {
       <p>
         {songTime} {durationTime}
       </p>
+      <h5 style={{ color: "red" }}>{error}</h5>
     </div>
   );
 };
