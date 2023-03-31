@@ -1,0 +1,14 @@
+.loading-bar{
+    background-color: rgb(80, 80, 80);
+    width: 300px;
+    height: 10px;
+    border-radius: 4rem;
+    margin: 0 auto;
+  
+    .loading-component{
+      background-color: rgb(179, 179, 179);
+      height: 10px;
+      width: 10px;
+      border-radius: inherit;
+    }
+  }

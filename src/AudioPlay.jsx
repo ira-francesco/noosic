@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import buttonStyling from "./style-btn.scss";
-import { secondsToMinutes } from "./utilities.js";
-import "./styles.css";
+import { secondsToMinutes, minutesToSeconds } from "./utilities.js";
+import "./loading-bar.scss";
+import LoadingBarComponent from "./LoadingBarComponent";
 
 var a;
+
 const AudioPlay = () => {
   const [buttonName, setButtonName] = useState("Play");
   const [audio, setAudio] = useState();
@@ -52,9 +54,21 @@ const AudioPlay = () => {
     <div>
       <button onClick={handleClick}>{buttonName}</button>
       <input type="file" onChange={addFile} />
-      <p>
-        {songTime} {durationTime}
-      </p>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "10px"
+        }}
+      >
+        <p>{songTime}</p>
+        <LoadingBarComponent
+          songTime={minutesToSeconds(songTime)}
+          durationTime={minutesToSeconds(durationTime)}
+        />
+        <p>{durationTime}</p>
+      </div>
       <h5 style={{ color: "red" }}>{error}</h5>
     </div>
   );
