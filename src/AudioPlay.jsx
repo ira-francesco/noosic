@@ -7,22 +7,21 @@ import LoadingBarComponent from "./LoadingBarComponent";
 var a;
 
 const AudioPlay = () => {
-  const [buttonName, setButtonName] = useState("Play");
+  const [buttonName, setButtonName] = useState("▶");
   const [audio, setAudio] = useState();
   const [durationTime, setDurationTime] = useState("");
-  const [songTime, setSongTime] = useState("0:00");
+  const [songTime, setSongTime] = useState("");
   const [error, setError] = useState("");
-
   useEffect(() => {
     if (a) {
       a.pause();
       a = null;
-      setButtonName("Play");
+      setButtonName("▶");
     }
     if (audio) {
       a = new Audio(audio);
       a.onended = () => {
-        setButtonName("Play");
+        setButtonName("⏸");
       };
     }
   }, [audio]);
@@ -31,12 +30,12 @@ const AudioPlay = () => {
     if (a !== undefined) {
       setDurationTime(secondsToMinutes(a.duration));
       setInterval(() => setSongTime(secondsToMinutes(a.currentTime)), 1000);
-      if (buttonName === "Play") {
+      if (buttonName === "▶") {
         a.play();
-        setButtonName("Pause");
+        setButtonName("⏸");
       } else {
         a.pause();
-        setButtonName("Play");
+        setButtonName("▶");
       }
       setError("");
     } else {
