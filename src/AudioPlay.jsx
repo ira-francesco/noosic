@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import buttonStyling from "./style-btn.scss";
-import { secondsToMinutes, minutesToSeconds } from "./utilities.js";
+import {
+  secondsToMinutes,
+  minutesToSeconds,
+  removeDuplicates
+} from "./utilities.js";
 import "./loading-bar.scss";
 import LoadingBarComponent from "./LoadingBarComponent";
+import SongWrapper from "./SongWrapper";
+import WrapperContainer from "./WrapperContainer";
+
 
 var a;
 
@@ -12,6 +19,8 @@ const AudioPlay = () => {
   const [durationTime, setDurationTime] = useState("");
   const [songTime, setSongTime] = useState("");
   const [error, setError] = useState("");
+  const [songArray, setSongArray] = useState([]);
+
   useEffect(() => {
     if (a) {
       a.pause();
@@ -45,6 +54,10 @@ const AudioPlay = () => {
 
   const addFile = (e) => {
     if (e.target.files[0]) {
+      setSongArray((songArray) => [
+        ...songArray,
+        { name: e.target.files[0].name, source: e.target.files[0] }
+      ]);
       setAudio(URL.createObjectURL(e.target.files[0]));
     }
   };
@@ -52,7 +65,11 @@ const AudioPlay = () => {
   return (
     <div>
       <button onClick={handleClick}>{buttonName}</button>
-      <input type="file" onChange={addFile} />
+      <input
+        type="file"
+        onChange={addFile}
+        accept={".pcm, .wav, .aiff, .mp3, .acc, .ogg, .wma, .flac, .alac"}
+      />
       <div
         style={{
           display: "flex",
@@ -69,6 +86,7 @@ const AudioPlay = () => {
         <p>{durationTime}</p>
       </div>
       <h5 style={{ color: "red" }}>{error}</h5>
+      <WrapperContainer songArray={songArray} durationTime={durationTime} />
     </div>
   );
 };

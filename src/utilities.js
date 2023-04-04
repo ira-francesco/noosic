@@ -13,3 +13,9 @@ const pad = (num, size) => {
   while (num.length < size) num = "0" + num;
   return num;
 };
+
+export const removeDuplicates = (arr) => {
+  return arr.filter(
+    (ele, ind) => ind === arr.findIndex((elem) => elem.name === ele.name)
+  );
+};
