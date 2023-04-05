@@ -19,3 +19,7 @@ export const removeDuplicates = (arr) => {
     (ele, ind) => ind === arr.findIndex((elem) => elem.name === ele.name)
   );
 };
+
+export const removeExtension = (file) => {
+  return file.replace(/\.[^/.]+$/, "");
+};

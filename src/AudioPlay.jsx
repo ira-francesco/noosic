@@ -3,13 +3,12 @@ import buttonStyling from "./style-btn.scss";
 import {
   secondsToMinutes,
   minutesToSeconds,
-  removeDuplicates
+  removeExtension
 } from "./utilities.js";
 import "./loading-bar.scss";
 import LoadingBarComponent from "./LoadingBarComponent";
 import SongWrapper from "./SongWrapper";
 import WrapperContainer from "./WrapperContainer";
-
 
 var a;
 
@@ -20,6 +19,7 @@ const AudioPlay = () => {
   const [songTime, setSongTime] = useState("");
   const [error, setError] = useState("");
   const [songArray, setSongArray] = useState([]);
+  const [songTitle, setSongTitle] = useState("");
 
   useEffect(() => {
     if (a) {
@@ -59,14 +59,17 @@ const AudioPlay = () => {
         { name: e.target.files[0].name, source: e.target.files[0] }
       ]);
       setAudio(URL.createObjectURL(e.target.files[0]));
+      setSongTitle(removeExtension(e.target.files[0].name));
     }
   };
 
   return (
     <div>
+      <h1>{songTitle}</h1>
       <button onClick={handleClick}>{buttonName}</button>
       <input
         type="file"
+        style={{ color: "#ffffff00" }}
         onChange={addFile}
         accept={".pcm, .wav, .aiff, .mp3, .acc, .ogg, .wma, .flac, .alac"}
       />
@@ -86,7 +89,12 @@ const AudioPlay = () => {
         <p>{durationTime}</p>
       </div>
       <h5 style={{ color: "red" }}>{error}</h5>
-      <WrapperContainer songArray={songArray} durationTime={durationTime} />
+      <WrapperContainer
+        setAudio={setAudio}
+        songArray={songArray}
+        durationTime={durationTime}
+        setSongTitle={setSongTitle}
+      />
     </div>
   );
 };

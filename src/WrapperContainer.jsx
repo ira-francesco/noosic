@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
 import containerStyling from "./song-styling.scss";
-import { removeDuplicates } from "./utilities.js";
-const WrapperContainer = ({ songArray }) => {
-  let pp = removeDuplicates(songArray);
+import { removeDuplicates, removeExtension } from "./utilities.js";
+const WrapperContainer = ({ songArray, setAudio, setSongTitle }) => {
+  let newSongArray = removeDuplicates(songArray);
 
   return (
     <div className="WrapperContainer" style={{ containerStyling }}>
-      {pp.map((item, i) => (
+      {newSongArray.map((item, i) => (
         <div
-          onClick={(e) =>
-            pp.find((element) => element.name === e.target.innerText)
-          }
+          onClick={(e) => {
+            setAudio(
+              URL.createObjectURL(
+                newSongArray.find(
+                  (element) => element.name === e.target.innerText
+                ).source
+              )
+            );
+            setSongTitle(removeExtension(e.target.innerText));
+          }}
           key={i}
         >
           {item.name}
