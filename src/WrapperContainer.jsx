@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import containerStyling from "./song-styling.scss";
 import { removeDuplicates, removeExtension } from "./utilities.js";
 const WrapperContainer = ({ songArray, setAudio, setSongTitle }) => {
@@ -12,7 +11,8 @@ const WrapperContainer = ({ songArray, setAudio, setSongTitle }) => {
             setAudio(
               URL.createObjectURL(
                 newSongArray.find(
-                  (element) => element.name === e.target.innerText
+                  (element) =>
+                    removeExtension(element.name) === e.target.innerText
                 ).source
               )
             );
@@ -20,7 +20,7 @@ const WrapperContainer = ({ songArray, setAudio, setSongTitle }) => {
           }}
           key={i}
         >
-          {item.name}
+          {removeExtension(item.name)}
         </div>
       ))}
     </div>

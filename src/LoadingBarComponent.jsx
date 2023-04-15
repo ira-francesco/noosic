@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import "./loading-bar.scss";
 const LoadingBarComponent = ({ songTime, durationTime }) => {
   let percentage = ((songTime / durationTime) * 100).toString() + "%";

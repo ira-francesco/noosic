@@ -1,18 +1,20 @@
-export const secondsToMinutes = (seconds) => {
-  let minutes = seconds / 60;
-  return `${Math.round(minutes)}:${pad(Math.round(seconds % 60), 2)}`;
+export const secondsToMinutes = (time) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time - minutes * 60;
+  const hours = Math.floor(time / 3600);
+  time = time - hours * 3600;
+  const finalTime = padTime(minutes, "0", 2) + ":" + padTime(seconds, "0", 2);
+  return finalTime;
 };
 
-export const minutesToSeconds = (value) => {
-  let arr = value.split(":");
-  return isNaN(value) ? Number(arr[0]) * 60 + Number(arr[1]) : 0;
+export const minutesToSeconds = (timeStr) => {
+  const [minutes, seconds] = timeStr.split(":").map(Number);
+  return minutes * 60 + seconds;
 };
 
-const pad = (num, size) => {
-  num = num.toString();
-  while (num.length < size) num = "0" + num;
-  return num;
-};
+function padTime(string, pad, length) {
+  return (new Array(length + 1).join(pad) + string).slice(-length);
+}
 
 export const removeDuplicates = (arr) => {
   return arr.filter(
